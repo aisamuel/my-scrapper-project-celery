@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,6 @@ SECRET_KEY = os.getenv('SECRET_KEY', '')
 DEBUG = True
 
 # ALLOWED_HOSTS = ['0.0.0.0', "127.0.0.1", "localhost",]
-CSRF_TRUSTED_ORIGINS = ['*'] 
 ALLOWED_HOSTS = ['*']
 
 
@@ -93,14 +93,7 @@ WSGI_APPLICATION = 'product_scraper.wsgi.application'
 #     }
 # }
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT"),
-    }
+   'default': dj_database_url.parse('postgresql://postgres:JMKTkJGnEJKKYDcGtyofFhkOLtueClUv@tramway.proxy.rlwy.net:21969/railway')
 }
 
 
@@ -161,7 +154,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CELERY settings
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
 CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER  = 'json'
+CELERY_TASK_SELERLIZER  = 'json'
+CELERY_TIMEZONE  = 'Asia/Kolkata'
+CELERY_RESULT_BACKEND  = 'django-db'
+#CELERY BEAT
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 
 CACHES = {
