@@ -30,6 +30,12 @@ DEBUG = True
 # ALLOWED_HOSTS = ['0.0.0.0', "127.0.0.1", "localhost",]
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",  # If using React, Vue, or another frontend
+    "http://127.0.0.1:8000",
+    "https://p01--scrapper--b9s647vhp5zt.code.run"
+]
+
 
 # Application definition
 
