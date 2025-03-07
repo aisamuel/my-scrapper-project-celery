@@ -82,22 +82,24 @@ def scrape_amazon_products(self):
                 except Exception as exc:
                     logger.error(f"An error occurred while scraping for {brand_name}, page {page}: {exc}")
                     raise exc
-
             # Parse product data
-            product_elements = soup.select('.s-main-slot .s-result-item')
+            product_elements = soup.select('.a-box.a-spacing-base.a-onlychild.textref-border.textref-box-onlychild')
+            logger.info(f"{product_elements}")
             
             for product in product_elements:
-                title_element = product.select_one("a.a-link-normal.s-line-clamp-2.s-link-style.a-text-normal h2 span")
-                asin_element = product.get('data-asin')
+                title_element = product.select_one("span.a-size-mini.a-color-base.s-line-clamp-2")
+                asin_element = str(random.randint(1, 1000000))
                 # sku_element = product.get('data-sku')
-                image_element = product.select_one('.s-image')
+                image_element = product.select_one("a.a-link-normal")
+                logger.info(f'{title_element}')
+                logger.info(f'{image_element}')
 
 
                 if asin_element and title_element and image_element:
                     title = title_element.text.strip()
                     asin = asin_element
                     sku = "N/A"
-                    image = image_element['src']
+                    image = "https://www.amazon.com" + image_element["href"]
                     
                     # Check if the product already exists in the database to prevent duplicates
                     existing_product = Product.objects.filter(asin=asin).first()
